@@ -93,4 +93,4 @@ Após rodar o seeder (`php artisan db:seed`), os seguintes usuários estarão di
 
 **Matheus** — _(a preencher)_
 
-**Gabriel** — _(a preencher)_
+**Gabriel** — Responsável pelo relacionamento entre entidades, autorização e CRUD de carros: criação das tabelas `marcas` e `carros` com chave estrangeira, Models `Marca` e `Carro`, CarroController com CRUD complet, rotas protegidas por autenticação, views Blade, CarroPolicy com regras de acesso por papel, autorização aplicada via `@can` nas views e `authorize()` no controller, e seeder de marcas de teste.
