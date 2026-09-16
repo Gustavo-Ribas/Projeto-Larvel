@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Carro;
 use App\Models\Marca;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreCarroRequest;
+use App\Http\Requests\UpdateCarroRequest;
 
 class CarroController extends Controller
 {
@@ -24,19 +26,9 @@ class CarroController extends Controller
         return view('carros.create', compact('marcas'));
     }
 
-    public function store(Request $request)
+        public function store(StoreCarroRequest $request)
     {
-        $this->authorize('create', Carro::class);
-
-        $validated = $request->validate([
-            'marca_id' => 'required|exists:marcas,id',
-            'modelo' => 'required|string|min:2',
-            'ano' => 'required|integer|min:1950',
-            'preco' => 'required|numeric|min:0',
-            'cor' => 'required|string',
-        ]);
-
-        Carro::create($validated);
+        Carro::create($request->validated());
 
         return redirect()->route('carros.index')->with('success', 'Carro cadastrado com sucesso.');
     }
@@ -55,19 +47,9 @@ class CarroController extends Controller
         return view('carros.edit', compact('carro', 'marcas'));
     }
 
-    public function update(Request $request, Carro $carro)
+    public function update(UpdateCarroRequest $request, Carro $carro)
     {
-        $this->authorize('update', $carro);
-
-        $validated = $request->validate([
-            'marca_id' => 'required|exists:marcas,id',
-            'modelo' => 'required|string|min:2',
-            'ano' => 'required|integer|min:1950',
-            'preco' => 'required|numeric|min:0',
-            'cor' => 'required|string',
-        ]);
-
-        $carro->update($validated);
+        $carro->update($request->validated());
 
         return redirect()->route('carros.index')->with('success', 'Carro atualizado com sucesso.');
     }
