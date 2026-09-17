@@ -1,6 +1,9 @@
-@extends('layouts.app')
-
-@section('content')
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            Carros
+        </h2>
+</x-slot>
 <div class="py-6 max-w-lg mx-auto">
     <h1 class="text-2xl font-bold mb-6">{{ $carro->marca->nome }} {{ $carro->modelo }}</h1>
 
@@ -14,4 +17,4 @@
 
     <a href="{{ route('carros.index') }}" class="inline-block mt-6 text-blue-600">Voltar</a>
 </div>
-@endsection
+</x-app-layout>

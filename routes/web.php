@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MarcaController;
+use App\Http\Controllers\CarroController;
 
 
 Route::get('/', function () {
@@ -19,24 +21,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-/*
-|--------------------------------------------------------------------------
-| Rotas de Carros - Matheus
-|--------------------------------------------------------------------------
-| Exemplo de uso do middleware de role:
-| Route::middleware(['auth', 'role:admin,gerente'])->group(function () {
-|     Route::resource('carros', CarroController::class);
-| });
-*/
+Route::middleware('auth')->group(function () {
+    Route::resource('carros', CarroController::class);
+});
 
-// TODO: Matheus adiciona aqui as rotas do CarroController (resource)
-
-/*
-|--------------------------------------------------------------------------
-| Rotas de Marca / Relacionamento - Gabriel
-|--------------------------------------------------------------------------
-*/
-
-// TODO: Gabriel adiciona aqui as rotas de Marca e as views com relacionamento
+Route::middleware('auth')->group(function () {
+    Route::resource('marcas', MarcaController::class)->only(['index', 'show']);
+});
 
 require __DIR__.'/auth.php';

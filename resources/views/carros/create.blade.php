@@ -1,6 +1,9 @@
-@extends('layouts.app')
-
-@section('content')
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            Carros
+        </h2>
+</x-slot>
 <div class="py-6 max-w-lg mx-auto">
     <h1 class="text-2xl font-bold mb-6">Novo Carro</h1>
 
@@ -49,4 +52,4 @@
         <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Salvar</button>
     </form>
 </div>
-@endsection
+</x-app-layout>
