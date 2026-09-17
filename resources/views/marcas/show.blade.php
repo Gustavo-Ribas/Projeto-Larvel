@@ -1,56 +1,159 @@
 <x-app-layout>
+
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Carros da marca: {{ $marca->nome }}
-        </h2>
+
+        <div>
+
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200">
+                {{ $marca->nome }}
+            </h2>
+
+            <p class="text-sm text-gray-500 mt-1">
+                Carros desta marca
+            </p>
+
+        </div>
+
     </x-slot>
 
-<div class="py-6 max-w-4xl mx-auto">
-    <h1 class="text-2xl font-bold mb-6">Carros da marca: {{ $marca->nome }}</h1>
 
-    @if($marca->carros->isEmpty())
-        <p class="text-gray-500">Nenhum carro cadastrado para essa marca ainda.</p>
-    @else
-        <table class="w-full text-left border-collapse">
-            <thead>
-                <tr class="text-sm text-gray-500">
-                    <th class="py-2">Modelo</th>
-                    <th class="py-2">Ano</th>
-                    <th class="py-2">Preço</th>
-                    <th class="py-2">Cor</th>
-                    <th class="py-2">Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($marca->carros as $carro)
-                    <tr class="border-t">
-                        <td class="py-2">{{ $carro->modelo }}</td>
-                        <td class="py-2">{{ $carro->ano }}</td>
-                        <td class="py-2">R$ {{ number_format($carro->preco, 2, ',', '.') }}</td>
-                        <td class="py-2">{{ $carro->cor }}</td>
-                        <td class="py-2 space-x-2">
-                            <a href="{{ route('carros.show', $carro) }}" class="text-blue-600">Ver</a>
+    <div class="py-8">
 
-                            @can('update', $carro)
-                                <a href="{{ route('carros.edit', $carro) }}" class="text-yellow-600">Editar</a>
-                            @endcan
+        <div class="max-w-6xl mx-auto px-4">
 
-                            @can('delete', $carro)
-                                <form action="{{ route('carros.destroy', $carro) }}" method="POST" class="inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="text-red-600">Excluir</button>
-                                </form>
-                            @endcan
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    @endif
+            <div class="bg-white dark:bg-gray-800 rounded-2xl border shadow-sm overflow-hidden">
 
-    <a href="{{ route('marcas.index') }}" class="inline-block mt-6 text-blue-600">
-        Voltar para lista de marcas
-    </a>
-</div>
+                <div class="p-7 border-b flex justify-between items-center">
+
+                    <div>
+
+                        <p class="text-xs uppercase text-gray-400">
+                            Marca
+                        </p>
+
+                        <h1 class="text-3xl font-bold">
+                            {{ $marca->nome }}
+                        </h1>
+
+                    </div>
+
+
+                    @if(in_array(auth()->user()->role, ['admin', 'gerente']))
+
+                        <a href="{{ route('marcas.edit', $marca) }}"
+                           class="px-4 py-2 rounded-lg bg-amber-500 text-white">
+
+                            Editar marca
+
+                        </a>
+
+                    @endif
+
+                </div>
+
+
+                @if($marca->carros->isEmpty())
+
+                    <div class="p-8 text-gray-500">
+                        Nenhum carro cadastrado para esta marca.
+                    </div>
+
+                @else
+
+                    <div class="overflow-x-auto">
+
+                        <table class="w-full text-left">
+
+                            <thead class="bg-gray-50">
+
+                                <tr>
+
+                                    <th class="px-6 py-3">
+                                        Modelo
+                                    </th>
+
+                                    <th class="px-6 py-3">
+                                        Ano
+                                    </th>
+
+                                    <th class="px-6 py-3">
+                                        Preço
+                                    </th>
+
+                                    <th class="px-6 py-3">
+                                        Cor
+                                    </th>
+
+                                    <th class="px-6 py-3 text-right">
+                                        Ações
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody class="divide-y">
+
+                                @foreach($marca->carros as $carro)
+
+                                    <tr>
+
+                                        <td class="px-6 py-4 font-medium">
+                                            {{ $carro->modelo }}
+                                        </td>
+
+                                        <td class="px-6 py-4">
+                                            {{ $carro->ano }}
+                                        </td>
+
+                                        <td class="px-6 py-4">
+                                            R$ {{ number_format($carro->preco, 2, ',', '.') }}
+                                        </td>
+
+                                        <td class="px-6 py-4">
+                                            {{ $carro->cor }}
+                                        </td>
+
+                                        <td class="px-6 py-4 text-right">
+
+                                            <a href="{{ route('carros.show', $carro) }}"
+                                               class="text-blue-600 hover:underline">
+
+                                                Ver carro
+
+                                            </a>
+
+                                        </td>
+
+                                    </tr>
+
+                                @endforeach
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                @endif
+
+
+                <div class="p-5 bg-gray-50">
+
+                    <a href="{{ route('marcas.index') }}"
+                       class="text-blue-600 hover:underline">
+
+                        ← Voltar para marcas
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
 </x-app-layout>
